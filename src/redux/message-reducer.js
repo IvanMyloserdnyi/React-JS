@@ -4,7 +4,7 @@ const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
 let initialState = {
         dialogsData: [
             {id: 1, name: "Goose Killer", url: "https://pbs.twimg.com/media/EFIiRRyXYAA_xGw?format=jpg&name=900x900"},
-            {id: 2, name: "MR Goose", url: "https://placepic.ru/wp-content/uploads/2018/02/photo.jpg"},
+            {id: 2, name: "MR Goose", url: "https://img.freepik.com/premium-photo/a-duck-wearing-sunglasses-isolated-on-background_875864-671.jpg"},
             {id: 3, name: "gOOse MZFK", url: "https://th.bing.com/th/id/R.86848a8a6a3896bc5028ecc6efa51bf5?rik=Yx8NeD1z7BSRtg&riu=http%3a%2f%2fandrey-eltsov.ru%2fwp-content%2fuploads%2f2017%2f09%2fSmehAva20-300x300.jpg&ehk=uPm%2flcEuEcbW8qcUnpsCq2Se%2bCFDxEFJzpujUNT5ALA%3d&risl=&pid=ImgRaw&r=0"},
             {id: 4, name: "AMGoose", url: "https://i.ytimg.com/vi/c0lkSx-VthM/hqdefault.jpg"},
             {id: 5, name: "HendeHog", url: "https://vjoy.cc/wp-content/uploads/2020/10/unnamed-60-768x768.jpg"},
@@ -22,7 +22,7 @@ let initialState = {
                 id: 2,
                 likesCount: 5,
                 message: "HY-YOOO!How is your sifilis&",
-                url: "https://placepic.ru/wp-content/uploads/2018/02/photo.jpg"
+                url: "https://img.freepik.com/premium-photo/a-duck-wearing-sunglasses-isolated-on-background_875864-671.jpg"
             },
             {
                 id: 3,
@@ -35,19 +35,23 @@ let initialState = {
 }
 const messageReducer = (state=initialState, action) => {
     switch (action.type) {
-        case ADD_MESSAGE :
+        case ADD_MESSAGE : {
             let newMessage = {
                 id: 4,
                 likesCount: 15,
                 message: state.newMessageText,
                 url: "https://pbs.twimg.com/media/EFIiRRyXYAA_xGw?format=jpg&name=900x900"
             };
-            state.messagesData.push(newMessage);
-            state.newMessageText = "";
-            return state;
-        case UPDATE_NEW_MESSAGE_TEXT :
-            state.newMessageText = action.newText;
-            return state;
+            let stateCopy = JSON.parse(JSON.stringify(state))
+            stateCopy.messagesData.unshift(newMessage);
+            stateCopy.newMessageText = "";
+            return stateCopy;
+        }
+        case UPDATE_NEW_MESSAGE_TEXT : {
+            let stateCopy = {...state}
+            stateCopy.newMessageText = action.newText;
+            return stateCopy;
+        }
         default:
             return state;
     }

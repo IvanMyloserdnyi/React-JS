@@ -13,7 +13,7 @@ let initialState = {
                 id: 2,
                 likesCount: 5,
                 message: "Hi,MOTHER OF GOD!!",
-                url: "https://placepic.ru/wp-content/uploads/2018/02/photo.jpg"
+                url: "https://img.freepik.com/premium-photo/a-duck-wearing-sunglasses-isolated-on-background_875864-671.jpg"
             },
             {
                 id: 3,
@@ -27,19 +27,23 @@ let initialState = {
 
 const profileReducer = (state=initialState, action) => {
     switch (action.type) {
-        case ADD_POST:
+        case ADD_POST: {
             let newPost = {
                 id: 4,
                 likesCount: 8,
                 message: state.newPostText,
                 url: "https://pbs.twimg.com/media/EFIiRRyXYAA_xGw?format=jpg&name=900x900"
             };
-            state.postsData.push(newPost);
-            state.newPostText = "";
-            return state;
-        case UPDATE_NEW_POST_TEXT:
-            state.newPostText = action.newText;
-            return state;
+            let stateCopy = JSON.parse(JSON.stringify(state));
+            stateCopy.postsData.unshift(newPost);
+            stateCopy.newPostText = "";
+            return stateCopy;
+        }
+        case UPDATE_NEW_POST_TEXT: {
+            let stateCopy = {...state}
+            stateCopy.newPostText = action.newText;
+            return stateCopy;
+        }
         default:
             return state;
     }
