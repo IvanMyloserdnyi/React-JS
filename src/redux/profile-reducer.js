@@ -27,23 +27,23 @@ let initialState = {
 
 const profileReducer = (state=initialState, action) => {
     switch (action.type) {
-        case ADD_POST: {
+        case ADD_POST:
             let newPost = {
                 id: 4,
                 likesCount: 8,
                 message: state.newPostText,
                 url: "https://pbs.twimg.com/media/EFIiRRyXYAA_xGw?format=jpg&name=900x900"
             };
-            let stateCopy = JSON.parse(JSON.stringify(state));
-            stateCopy.postsData.unshift(newPost);
-            stateCopy.newPostText = "";
-            return stateCopy;
-        }
-        case UPDATE_NEW_POST_TEXT: {
-            let stateCopy = {...state}
-            stateCopy.newPostText = action.newText;
-            return stateCopy;
-        }
+            return {
+                ...state,
+                postsData: [...state.postsData,newPost],
+                newPostText: ''
+            };
+        case UPDATE_NEW_POST_TEXT:
+            return {
+                ...state,
+                newPostText: action.newText
+            };
         default:
             return state;
     }

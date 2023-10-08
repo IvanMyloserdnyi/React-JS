@@ -35,23 +35,23 @@ let initialState = {
 }
 const messageReducer = (state=initialState, action) => {
     switch (action.type) {
-        case ADD_MESSAGE : {
+        case ADD_MESSAGE :
             let newMessage = {
                 id: 4,
                 likesCount: 15,
                 message: state.newMessageText,
                 url: "https://pbs.twimg.com/media/EFIiRRyXYAA_xGw?format=jpg&name=900x900"
             };
-            let stateCopy = JSON.parse(JSON.stringify(state))
-            stateCopy.messagesData.unshift(newMessage);
-            stateCopy.newMessageText = "";
-            return stateCopy;
-        }
-        case UPDATE_NEW_MESSAGE_TEXT : {
-            let stateCopy = {...state}
-            stateCopy.newMessageText = action.newText;
-            return stateCopy;
-        }
+            return {
+                ...state,
+                messagesData: [...state.messagesData,newMessage],
+                newMessageText: ''
+            };
+        case UPDATE_NEW_MESSAGE_TEXT :
+            return {
+                ...state,
+                newMessageText: action.newText
+            };
         default:
             return state;
     }
