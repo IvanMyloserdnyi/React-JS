@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './users.module.css'
 import defaultUsersPhoto from '../../assets/photos/default_user_image.png'
-import preloader from "../../assets/photos/loader.svg";
+import Preloader from "../Common/Preloader/Preloader";
 
 
 let Users = (props) => {
@@ -18,7 +18,7 @@ let Users = (props) => {
             })}
         </div>
         {
-            props.isFetching ? <img src={preloader} alt={'Loading'}/> : props.users.map(u => <div key={u.id}>
+            props.isFetching ? <Preloader/> : props.users.map(u => <div key={u.id}>
             <span>
                 <img src={u.photos.small === null ? defaultUsersPhoto : u.photos.small} alt="Фото юзера" className={styles.userPhoto}/>
                 {u.followed
