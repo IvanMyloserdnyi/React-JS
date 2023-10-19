@@ -26,7 +26,7 @@ const ProfileInfo = (props) => {
                     <h3>Contacts:</h3>
                     <ul>
                         {Object.entries(profile.contacts).map(([key,value]) => (
-                            !!value && <li>
+                            !!value && <li key={key}>
                                 <h5>{key}: <a href={value}>{value}</a></h5>
                             </li>
                         ))}
