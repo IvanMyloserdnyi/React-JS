@@ -2,3 +2,7 @@
 .description_block {
     padding: 10px;
 }
+.userPhoto {
+    width: 450px;
+    height: 450px;
+}

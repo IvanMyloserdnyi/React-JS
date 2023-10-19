@@ -2,6 +2,7 @@ import React from "react";
 import styles from './users.module.css'
 import defaultUsersPhoto from '../../assets/photos/default_user_image.png'
 import Preloader from "../Common/Preloader/Preloader";
+import {NavLink} from "react-router-dom";
 
 
 let Users = (props) => {
@@ -20,7 +21,9 @@ let Users = (props) => {
         {
             props.isFetching ? <Preloader/> : props.users.map(u => <div key={u.id}>
             <span>
+                <NavLink to={'/Profile/' + u.id}>
                 <img src={u.photos.small === null ? defaultUsersPhoto : u.photos.small} alt="Фото юзера" className={styles.userPhoto}/>
+                </NavLink>
                 {u.followed
                     ? <button onClick={() => {props.unfollow(u.id)}}>Unfollow</button>
                     : <button onClick={() => {props.follow(u.id)}}>Follow</button>}
