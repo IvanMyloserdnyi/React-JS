@@ -14,16 +14,23 @@ import Users from "./Users";
 class UsersContainer extends React.Component {
     componentDidMount() {
         this.props.toggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(res => {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,{
+            withCredentials: true,
+            //'API-KEY': '9a6dd39a-c42f-4e63-bf98-b8cde886a912'
+        }).then(res => {
             this.props.toggleIsFetching(false)
             this.props.setUsers(res.data.items)
             this.props.setTotalUsersCount(res.data.totalCount);
         })
+
     }
     onPageChanged = (pageNumber) => {
         this.props.toggleIsFetching(true)
         this.props.setCurrentPage(pageNumber)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`).then(res => {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,{
+            withCredentials: true,
+            //'API-KEY': '9a6dd39a-c42f-4e63-bf98-b8cde886a912'
+        }).then(res => {
             this.props.toggleIsFetching(false)
             this.props.setUsers(res.data.items);
         })
