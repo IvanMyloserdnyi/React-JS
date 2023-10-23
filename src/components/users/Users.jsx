@@ -20,13 +20,16 @@ let Users = (props) => {
             })}
         </div>
         {
-            props.isFetching ? <Preloader/> : props.users.map(u => <div key={u.id}>
+            props.isFetching
+                ? <Preloader/>
+                : props.users.map(u => <div key={u.id}>
             <span>
                 <NavLink to={'/Profile/' + u.id}>
                 <img src={u.photos.small === null ? defaultUsersPhoto : u.photos.small} alt="Фото юзера" className={styles.userPhoto}/>
                 </NavLink>
-                {u.followed
-                    ? <button onClick={() => {
+                {u.followed ?
+                    <button disabled={props.isFollowingProgress.some(id => id === u.id)} onClick={() => {
+                        props.toggleIsFollowingProgress(true, u.id)
                         axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
                             withCredentials: true,
 /*                            headers: {
@@ -37,10 +40,12 @@ let Users = (props) => {
                                 if (res.data.resultCode === 0) {
                                     props.unfollow(u.id)
                                 }
+                                props.toggleIsFollowingProgress(false, u.id)
                             })
 
                     }}>Unfollow</button>
-                    : <button onClick={() => {
+                    : <button disabled={props.isFollowingProgress.some(id => id === u.id)} onClick={() => {
+                        props.toggleIsFollowingProgress(true, u.id)
                         axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,{}, {
                             withCredentials: true,
 /*                            headers: {
@@ -51,8 +56,8 @@ let Users = (props) => {
                             if (res.data.resultCode === 0) {
                                 props.follow(u.id)
                             }
+                            props.toggleIsFollowingProgress(false, u.id)
                         })
-
                     }}>Follow</button>}
             </span>
                 <span>

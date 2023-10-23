@@ -5,7 +5,7 @@ import {
     setCurrentPage,
     setTotalUsersCount,
     setUsers,
-    toggleIsFetching,
+    toggleIsFetching, toggleIsFollowingProgress,
     unfollow
 } from "../../redux/users-reducer";
 import Users from "./Users";
@@ -41,6 +41,8 @@ class UsersContainer extends React.Component {
                       unfollow = {this.props.unfollow}
                       follow = {this.props.follow}
                       isFetching = {this.props.isFetching}
+                      toggleIsFollowingProgress = {this.props.toggleIsFollowingProgress}
+                      isFollowingProgress = {this.props.isFollowingProgress}
             />
 
         </>
@@ -52,7 +54,8 @@ let mapStateToProps = (state) => {
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        isFollowingProgress: state.usersPage.isFollowingProgress
     }
 }
 /*let mapDispatchToProps = (dispatch) => {
@@ -77,5 +80,5 @@ let mapStateToProps = (state) => {
         }
     }
 }*/
-const actions = {follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, toggleIsFetching} //вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
+const actions = {follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, toggleIsFetching, toggleIsFollowingProgress} //вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
 export default connect(mapStateToProps,actions)(UsersContainer)
