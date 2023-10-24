@@ -1,12 +1,13 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-    followThunkCreator, getUsersThunkCreator,
+    followThunk, getUsersThunk,
     setCurrentPage,
     toggleIsFollowingProgress,
-    unfollowThunkCreator
+    unfollowThunk
 } from "../../redux/users-reducer";
 import Users from "./Users";
+import {Navigate} from "react-router-dom";
 
 
 class UsersContainer extends React.Component {
@@ -18,6 +19,7 @@ class UsersContainer extends React.Component {
         this.props.getUsersThunkCreator(pageNumber,this.props.pageSize)
     }
     render() {
+        if (!this.props.isAuth) return <Navigate to = '/login'/>
         return <>
             <Users    totalUsersCount = {this.props.totalUsersCount}
                       pageSize = {this.props.pageSize}
@@ -40,7 +42,8 @@ let mapStateToProps = (state) => {
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
-        isFollowingProgress: state.usersPage.isFollowingProgress
+        isFollowingProgress: state.usersPage.isFollowingProgress,
+        isAuth: state.auth.isAuth
     }
 }
 /*let mapDispatchToProps = (dispatch) => {
@@ -65,5 +68,5 @@ let mapStateToProps = (state) => {
         }
     }
 }*/
-const actions = { setCurrentPage, toggleIsFollowingProgress,getUsersThunkCreator,followThunkCreator,unfollowThunkCreator} //вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
+const actions = { setCurrentPage, toggleIsFollowingProgress,getUsersThunkCreator: getUsersThunk,followThunkCreator: followThunk,unfollowThunkCreator: unfollowThunk} //вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
 export default connect(mapStateToProps,actions)(UsersContainer)

@@ -66,7 +66,7 @@ export const setCurrentPage = (currentPage) => ({type:SET_CURRENT_PAGE, currentP
 export const setTotalUsersCount = (totalUsersCount) => ({type:SET_TOTAL_USERS_COUNT, totalUsersCount})
 export const toggleIsFetching = (isFetching) => ({type:TOGGLE_IS_FETCHING, isFetching})
 export const toggleIsFollowingProgress = (isFetching, userId) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId})
-export const getUsersThunkCreator = (currentPage,pageSize) => {
+export const getUsersThunk = (currentPage, pageSize) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true))
         usersAPI.getUsers(currentPage,pageSize)
@@ -77,7 +77,7 @@ export const getUsersThunkCreator = (currentPage,pageSize) => {
             })
     }
 }
-export const followThunkCreator = (userId) => {
+export const followThunk = (userId) => {
     return (dispatch) => {
         dispatch(toggleIsFollowingProgress(true, userId))
         usersAPI.follow(userId)
@@ -89,7 +89,7 @@ export const followThunkCreator = (userId) => {
             })
     }
 }
-export const unfollowThunkCreator = (userId) => {
+export const unfollowThunk = (userId) => {
     return (dispatch) => {
         dispatch(toggleIsFollowingProgress(true, userId))
         usersAPI.unfollow(userId)

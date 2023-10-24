@@ -1,9 +1,9 @@
 import React from "react"
 import Profile from "./Profile";
-import axios from "axios";
 import {connect} from "react-redux";
-import {setUserProfile} from "../../redux/profile-reducer";
+import {getProfileDataThunk} from "../../redux/profile-reducer";
 import {
+    Navigate,
     useLocation,
     useNavigate,
     useParams,
@@ -28,15 +28,10 @@ function withRouter(Component) {
 }
 class ProfileContainer extends React.Component {
     componentDidMount() {
-        let userId = this.props.router.params.userId
-        if (!userId) {
-            userId = 30203
-        }
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/`+userId).then(res => {
-            this.props.setUserProfile(res.data)
-        })
+        this.props.profileThunkCreator(this.props.router.params.userId)
     }
     render() {
+        if (!this.props.isAuth) return <Navigate to = '/login'/>
         return (
             <div>
                 <Profile {...this.props}/>
@@ -45,8 +40,8 @@ class ProfileContainer extends React.Component {
     }
 }
 const mapStateToProps = (state) => ({
-    profile: state.profilePage.profile
+    profile: state.profilePage.profile,
+    isAuth: state.auth.isAuth
 })
-const actions = {setUserProfile}
 
-export default connect(mapStateToProps,actions)(withRouter(ProfileContainer))
+export default connect(mapStateToProps, {profileThunkCreator: getProfileDataThunk})(withRouter(ProfileContainer))
