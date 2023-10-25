@@ -8,6 +8,7 @@ import {
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import {Navigate} from "react-router-dom";
+import withAuthRedirect from "../../hoc/withAuthRedirect";
 
 
 class UsersContainer extends React.Component {
@@ -43,9 +44,9 @@ let mapStateToProps = (state) => {
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
         isFollowingProgress: state.usersPage.isFollowingProgress,
-        isAuth: state.auth.isAuth
     }
 }
+
 /*let mapDispatchToProps = (dispatch) => {
     return {
         follow: (userId) => {
@@ -69,4 +70,6 @@ let mapStateToProps = (state) => {
     }
 }*/
 const actions = { setCurrentPage, toggleIsFollowingProgress,getUsersThunkCreator: getUsersThunk,followThunkCreator: followThunk,unfollowThunkCreator: unfollowThunk} //вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
-export default connect(mapStateToProps,actions)(UsersContainer)
+
+
+export default withAuthRedirect(connect(mapStateToProps,actions)(UsersContainer))

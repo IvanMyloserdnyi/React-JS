@@ -3,11 +3,11 @@ import Profile from "./Profile";
 import {connect} from "react-redux";
 import {getProfileDataThunk} from "../../redux/profile-reducer";
 import {
-    Navigate,
     useLocation,
     useNavigate,
     useParams,
 } from "react-router-dom";
+import withAuthRedirect from "../../hoc/withAuthRedirect";
 
 
 // wrapper to use react router's v6 hooks in class component(to use HOC pattern, like in router v5)
@@ -31,7 +31,6 @@ class ProfileContainer extends React.Component {
         this.props.profileThunkCreator(this.props.router.params.userId)
     }
     render() {
-        if (!this.props.isAuth) return <Navigate to = '/login'/>
         return (
             <div>
                 <Profile {...this.props}/>
@@ -39,9 +38,9 @@ class ProfileContainer extends React.Component {
         )
     }
 }
+
 const mapStateToProps = (state) => ({
-    profile: state.profilePage.profile,
-    isAuth: state.auth.isAuth
+    profile: state.profilePage.profile
 })
 
-export default connect(mapStateToProps, {profileThunkCreator: getProfileDataThunk})(withRouter(ProfileContainer))
+export default withAuthRedirect(connect(mapStateToProps, {profileThunkCreator: getProfileDataThunk})(withRouter(ProfileContainer)))
