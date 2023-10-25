@@ -9,6 +9,7 @@ import {
 import Users from "./Users";
 import {Navigate} from "react-router-dom";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 class UsersContainer extends React.Component {
@@ -72,4 +73,8 @@ let mapStateToProps = (state) => {
 const actions = { setCurrentPage, toggleIsFollowingProgress,getUsersThunkCreator: getUsersThunk,followThunkCreator: followThunk,unfollowThunkCreator: unfollowThunk} //вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
 
 
-export default withAuthRedirect(connect(mapStateToProps,actions)(UsersContainer))
+
+export default compose(
+    withAuthRedirect,
+    connect(mapStateToProps,actions))
+(UsersContainer)
