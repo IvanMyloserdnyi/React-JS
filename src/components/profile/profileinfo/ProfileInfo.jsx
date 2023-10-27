@@ -32,7 +32,7 @@ const ProfileInfo = (props) => {
                 </div>
             </div>
             <div>
-                <ProfileStatus status = {'Hello my friends!'}/>
+                <ProfileStatus status = {props.status} updateStatus = {props.updateUserStatus}/>
             </div>
 {/*            <div>
                 <img src="https://live.staticflickr.com/3071/2768511618_def21cfaf1.jpg"/>

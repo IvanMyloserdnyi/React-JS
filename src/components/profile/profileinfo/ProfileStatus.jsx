@@ -6,10 +6,10 @@ import s from "./ProfileInfo.module.css";
 
 class ProfileStatus extends React.Component {
     state = {
-        editMode: false
+        editMode: false,
+        status: this.props.status
     }
     activateEditMode = () =>  {
-        console.log(this)
         this.setState({
             editMode: true
         })
@@ -18,6 +18,12 @@ class ProfileStatus extends React.Component {
         this.setState({
             editMode: false
         })
+        this.props.updateStatus(this.state.status)
+    }
+    onStatusChange = (e) => {
+        this.setState({
+            status: e.currentTarget.value
+        })
     }
     render() {
     return (
@@ -25,11 +31,12 @@ class ProfileStatus extends React.Component {
             {this.state.editMode === true
                 ?
                 <div>
-                    <input autoFocus={true} onBlur={this.deactivateEditMode} value={this.props.status}/>
+                    <input onChange={this.onStatusChange} autoFocus={true} onBlur={this.deactivateEditMode} value={this.state.status}/>
                 </div>
                 :
-                <div>
-                    <span onDoubleClick={this.activateEditMode}>{this.props.status}</span>
+                <div onDoubleClick={this.activateEditMode}>
+                    <span>Your status:</span>
+                    <span >{this.props.status}</span>
                 </div>
             }
         </div>
