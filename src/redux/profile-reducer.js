@@ -1,7 +1,6 @@
 import {profileAPI as profileApi, usersAPI} from "../api/api";
 
 const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 
@@ -26,7 +25,6 @@ let initialState = {
                 url: "https://th.bing.com/th/id/R.86848a8a6a3896bc5028ecc6efa51bf5?rik=Yx8NeD1z7BSRtg&riu=http%3a%2f%2fandrey-eltsov.ru%2fwp-content%2fuploads%2f2017%2f09%2fSmehAva20-300x300.jpg&ehk=uPm%2flcEuEcbW8qcUnpsCq2Se%2bCFDxEFJzpujUNT5ALA%3d&risl=&pid=ImgRaw&r=0"
             }
         ],
-        newPostText: "PYTIN CHMO!!!",
     profile: null,
     status: ''
 }
@@ -37,7 +35,7 @@ const profileReducer = (state=initialState, action) => {
             let newPost = {
                 id: 4,
                 likesCount: 8,
-                message: state.newPostText,
+                message: action.newPostText,
                 url: "https://pbs.twimg.com/media/EFIiRRyXYAA_xGw?format=jpg&name=900x900"
             };
             return {
@@ -45,8 +43,6 @@ const profileReducer = (state=initialState, action) => {
                 postsData: [...state.postsData,newPost],
                 newPostText: ''
             };
-        case UPDATE_NEW_POST_TEXT:
-            return {...state, newPostText: action.newText};
         case SET_USER_PROFILE:
             return {...state, profile: action.profile}
         case SET_STATUS:
@@ -56,8 +52,7 @@ const profileReducer = (state=initialState, action) => {
     }
 }
 
-export const addPostActionCreator = () => ({type: ADD_POST});
-export const updateNewPostTextActionCreator = (text) => ({type: UPDATE_NEW_POST_TEXT, newText: text});
+export const addPostActionCreator = (newPostText) => ({type: ADD_POST, newPostText});
 export const setUserProfile = (profile) => ({type:SET_USER_PROFILE, profile});
 export const setStatus = (status) => ({type:SET_STATUS, status})
 export const getProfileDataThunk = (userId) => {
