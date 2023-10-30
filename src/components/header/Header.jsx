@@ -8,8 +8,9 @@ const Header = (props) => {
                 <img className={s.logo}  src="https://www.freeiconspng.com/uploads/goose-png-27.png"/>
             <b className={s.label}>GUSSI GANG</b>
             <div className={s.loginBlock}>
-                {props.isAuth? props.login :
-                    <NavLink to='/login'>Login</NavLink>}
+                {props.isAuth
+                    ? <div>{props.login} <button onClick={props.logoutThunkCreator}>Logout</button></div>
+                    : <NavLink to='/login'>Login</NavLink>}
             </div>
         </header>
     )
