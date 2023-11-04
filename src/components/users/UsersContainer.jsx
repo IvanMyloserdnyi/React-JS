@@ -21,7 +21,6 @@ class UsersContainer extends React.Component {
         this.props.getUsersThunkCreator(pageNumber,this.props.pageSize)
     }
     render() {
-        if (!this.props.isAuth) return <Navigate to = '/login'/>
         return <>
             <Users    totalUsersCount = {this.props.totalUsersCount}
                       pageSize = {this.props.pageSize}
@@ -75,6 +74,5 @@ const actions = { setCurrentPage, toggleIsFollowingProgress,getUsersThunkCreator
 
 
 export default compose(
-    withAuthRedirect,
     connect(mapStateToProps,actions))
 (UsersContainer)
