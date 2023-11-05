@@ -1,24 +1,24 @@
 import React from "react";
 import {connect} from "react-redux";
-import {
-    followThunk, getUsersThunk,
-    setCurrentPage,
-    toggleIsFollowingProgress,
-    unfollowThunk
-} from "../../redux/users-reducer";
+import {followThunk, requestUsersThunk, toggleIsFollowingProgress, unfollowThunk} from "../../redux/users-reducer";
 import Users from "./Users";
-import {Navigate} from "react-router-dom";
-import withAuthRedirect from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {
+    getCurrentPage,
+    getIsFetching,
+    getIsFollowingProgress,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "../../redux/users-selectors";
 
 
 class UsersContainer extends React.Component {
     componentDidMount() {
-        this.props.getUsersThunkCreator(this.props.currentPage,this.props.pageSize)
+        this.props.requestUsersThunk(this.props.currentPage,this.props.pageSize)
     }
     onPageChanged = (pageNumber) => {
-        this.props.setCurrentPage(pageNumber)
-        this.props.getUsersThunkCreator(pageNumber,this.props.pageSize)
+        this.props.requestUsersThunk(pageNumber,this.props.pageSize)
     }
     render() {
         return <>
@@ -38,12 +38,12 @@ class UsersContainer extends React.Component {
 }
 let mapStateToProps = (state) => {
     return {
-        users: state.usersPage.usersData,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        isFollowingProgress: state.usersPage.isFollowingProgress,
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        isFollowingProgress: getIsFollowingProgress(state),
     }
 }
 
@@ -69,7 +69,7 @@ let mapStateToProps = (state) => {
         }
     }
 }*/
-const actions = { setCurrentPage, toggleIsFollowingProgress,getUsersThunkCreator: getUsersThunk,followThunkCreator: followThunk,unfollowThunkCreator: unfollowThunk} //вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
+const actions = {toggleIsFollowingProgress,requestUsersThunk,followThunkCreator: followThunk,unfollowThunkCreator: unfollowThunk} //вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
 
 
 
