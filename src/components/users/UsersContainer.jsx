@@ -15,10 +15,12 @@ import {
 
 class UsersContainer extends React.Component {
     componentDidMount() {
-        this.props.requestUsersThunk(this.props.currentPage,this.props.pageSize)
+        let {currentPage, pageSize} = this.props
+        this.props.requestUsersThunk(currentPage,pageSize)
     }
     onPageChanged = (pageNumber) => {
-        this.props.requestUsersThunk(pageNumber,this.props.pageSize)
+        const {pageSize} = this.props
+        this.props.requestUsersThunk(pageNumber,pageSize)
     }
     render() {
         return <>
@@ -47,6 +49,12 @@ let mapStateToProps = (state) => {
     }
 }
 
+
+const actions = {toggleIsFollowingProgress,requestUsersThunk,followThunkCreator: followThunk,unfollowThunkCreator: unfollowThunk}
+export default compose(
+    connect(mapStateToProps,actions))
+(UsersContainer)
+//вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
 /*let mapDispatchToProps = (dispatch) => {
     return {
         follow: (userId) => {
@@ -69,10 +77,3 @@ let mapStateToProps = (state) => {
         }
     }
 }*/
-const actions = {toggleIsFollowingProgress,requestUsersThunk,followThunkCreator: followThunk,unfollowThunkCreator: unfollowThunk} //вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
-
-
-
-export default compose(
-    connect(mapStateToProps,actions))
-(UsersContainer)

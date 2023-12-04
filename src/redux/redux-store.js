@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, legacy_createStore} from "redux";
+import {applyMiddleware, combineReducers, compose, legacy_createStore} from "redux";
 import messageReducer from "./message-reducer";
 import profileReducer from "./profile-reducer";
 import usersReducer from "./users-reducer"
@@ -16,7 +16,9 @@ let reducers = combineReducers({
     app: appReducer
 })
 
-let store = legacy_createStore(reducers,applyMiddleware(thunkMiddleware));
+//composeEnhancers works only with chrome
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace:true, traceLimit:25}) || compose;
+let store = legacy_createStore(reducers,composeEnhancers(applyMiddleware(thunkMiddleware)));
 
 window.store = store
 
