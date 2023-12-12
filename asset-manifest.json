@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/React-JS/static/css/main.21fd501b.css",
-    "main.js": "/React-JS/static/js/main.52e3222f.js",
+    "main.js": "/React-JS/static/js/main.39a2ca62.js",
     "static/css/365.89432880.chunk.css": "/React-JS/static/css/365.89432880.chunk.css",
     "static/js/365.348fd3b5.chunk.js": "/React-JS/static/js/365.348fd3b5.chunk.js",
-    "static/css/736.d5954493.chunk.css": "/React-JS/static/css/736.d5954493.chunk.css",
-    "static/js/736.c07d35ef.chunk.js": "/React-JS/static/js/736.c07d35ef.chunk.js",
+    "static/css/249.2c0488bd.chunk.css": "/React-JS/static/css/249.2c0488bd.chunk.css",
+    "static/js/249.a217f1a5.chunk.js": "/React-JS/static/js/249.a217f1a5.chunk.js",
     "static/js/787.28cb0dcd.chunk.js": "/React-JS/static/js/787.28cb0dcd.chunk.js",
     "static/media/default_user_image.png": "/React-JS/static/media/default_user_image.a4309f8a1839cc91c964.png",
     "static/media/loader.svg": "/React-JS/static/media/loader.2cbf0efb7fea87defd38e6b77121818a.svg",
     "index.html": "/React-JS/index.html",
     "main.21fd501b.css.map": "/React-JS/static/css/main.21fd501b.css.map",
-    "main.52e3222f.js.map": "/React-JS/static/js/main.52e3222f.js.map",
+    "main.39a2ca62.js.map": "/React-JS/static/js/main.39a2ca62.js.map",
     "365.89432880.chunk.css.map": "/React-JS/static/css/365.89432880.chunk.css.map",
     "365.348fd3b5.chunk.js.map": "/React-JS/static/js/365.348fd3b5.chunk.js.map",
-    "736.d5954493.chunk.css.map": "/React-JS/static/css/736.d5954493.chunk.css.map",
-    "736.c07d35ef.chunk.js.map": "/React-JS/static/js/736.c07d35ef.chunk.js.map",
+    "249.2c0488bd.chunk.css.map": "/React-JS/static/css/249.2c0488bd.chunk.css.map",
+    "249.a217f1a5.chunk.js.map": "/React-JS/static/js/249.a217f1a5.chunk.js.map",
     "787.28cb0dcd.chunk.js.map": "/React-JS/static/js/787.28cb0dcd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.21fd501b.css",
-    "static/js/main.52e3222f.js"
+    "static/js/main.39a2ca62.js"
   ]
 }
