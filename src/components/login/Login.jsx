@@ -22,7 +22,6 @@ const Login = (props) => {
     const onSubmit = (formData) => {
         const {email,password,rememberMe} = formData
         props.loginThunkCreator(email,password,rememberMe)
-        console.log(formData)
     }
 
     if (props.isAuth)

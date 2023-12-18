@@ -9,9 +9,8 @@ import Main from "./App";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
     root.render(
-        <React.StrictMode>
+        //<React.StrictMode> с модом не отображаются initial values в ProfileDataForm/ (ProfileInfo 35 строка)
             <Main/>
-        </React.StrictMode>
     );
 
 
