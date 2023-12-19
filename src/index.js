@@ -7,10 +7,12 @@ import Main from "./App";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
+/*с модом <React.StrictMode>  не отображаются initial values в ProfileDataForm/ (ProfileInfo 35 строка) а без мода
+* не работает редакс форм в логине*/
     root.render(
-        //<React.StrictMode> с модом не отображаются initial values в ProfileDataForm/ (ProfileInfo 35 строка)
+        <React.StrictMode>
             <Main/>
+        </React.StrictMode>
     );
 
 
