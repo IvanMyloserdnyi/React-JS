@@ -5,7 +5,7 @@ import News from "./components/news/News";
 import Music from "./components/music/Music";
 import Settings from "./components/settings/Settings";
 import LoginPage from "./components/login/Login";
-import {Routes, Route, HashRouter} from "react-router-dom";
+import {Routes, Route, HashRouter, Navigate} from "react-router-dom";
 import UsersContainer from "./components/users/UsersContainer";
 import HeaderContainer from "./components/header/HeaderContainer";
 import {connect, Provider} from "react-redux";
@@ -19,8 +19,15 @@ const DialogsContainer = React.lazy(() => import("./components/dialogs/DialogsCo
 const ProfileContainer = React.lazy(() => import("./components/profile/ProfileContainer"));
 
 class App extends React.Component {
+    catchAllUnhandledErrors = () => {
+        alert ("some error occured")
+    }
     componentDidMount() {
         this.props.initializeAppThunk()
+        window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors)
+    }
+    componentWillUnmount() {
+        window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors)
     }
 
     render() {
@@ -34,6 +41,7 @@ class App extends React.Component {
                 <div className={"app-wrapper-content"}>
                     <Routes>
                         {/*<Route path="/profile" element={<ProfileContainer/>}/>*/}
+                        <Route exact path="/" element = {<Navigate to="/profile"/>}/>
                         <Route path="/profile"
                                element={<Suspense fallback={<Preloader/>}><ProfileContainer/></Suspense>}/>
                         <Route path="/profile/:userId"
@@ -45,6 +53,7 @@ class App extends React.Component {
                         <Route path="/settings" element={<Settings/>}/>
                         <Route path="/users" element={<UsersContainer/>}/>
                         <Route path="/login" element={<LoginPage/>}/>
+                        <Route path="*" element={<div>404 Not found</div>}/>
                     </Routes>
                 </div>
             </div>

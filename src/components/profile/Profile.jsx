@@ -7,7 +7,7 @@ const Profile = (props) => {
         <div>
             <ProfileInfo profile = {props.profile}
                          status = {props.status}
-                         updateUserStatus = {props.updateUserStatusThunk}
+                         updateUserStatus = {props.updateUserStatus}
                          isOwner = {props.isOwner}
                          savePhoto = {props.savePhoto}
                          saveProfile = {props.saveProfile}

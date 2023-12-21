@@ -41,7 +41,7 @@ const ProfileInfo = ({profile, status, updateUserStatus, isOwner, savePhoto, sav
                                    activateEditMode = {() => setEditMode(true)}/> }
             </div>
             <div>
-                <ProfileStatusWithHooks status={status} updateStatus={updateUserStatus}/>
+                <ProfileStatusWithHooks status={status} updateUserStatus={updateUserStatus}/>
             </div>
         </div>
     )
