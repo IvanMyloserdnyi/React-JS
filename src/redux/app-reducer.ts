@@ -4,7 +4,7 @@ let initialState = {
     initialized: false,
 };
 
-const appReducer = (state = initialState, action) => {
+const appReducer = (state = initialState, action: any) => {
     switch (action.type){
         case SET_INITIALIZED: {
             return { ...state, initialized: true }
