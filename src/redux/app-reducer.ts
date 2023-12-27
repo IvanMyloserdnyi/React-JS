@@ -1,22 +1,29 @@
 import { getAuthDataThunk } from "./auth-reducer";
 const SET_INITIALIZED = 'SET_INITIALIZED';
-let initialState = {
+
+export type initialStateType = {
+    initialized: boolean
+}
+let initialState: initialStateType = {
     initialized: false,
 };
 
-const appReducer = (state = initialState, action: any) => {
+const appReducer = (state = initialState, action: any): initialStateType => {
     switch (action.type){
         case SET_INITIALIZED: {
-            return { ...state, initialized: true }
+            return { ...state, initialized: true}
         }
         default:
             return state;
     }
 }
 
-export const initializingSuccess = () => ( { type: SET_INITIALIZED })
+type InitializingSuccessActionType = {
+    type: typeof SET_INITIALIZED
+}
+export const initializingSuccess = (): InitializingSuccessActionType => ( { type: SET_INITIALIZED })
 
-export const initializeAppThunk = () => async dispatch => {
+export const initializeAppThunk = () => async (dispatch: any) => {
     let promise = []
     promise.push(dispatch(getAuthDataThunk()))
     await Promise.all(promise)
