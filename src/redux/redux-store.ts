@@ -7,7 +7,7 @@ import thunkMiddleware from 'redux-thunk'
 import {reducer as formReducer} from "redux-form"
 import appReducer from "./app-reducer";
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
     profilePage:profileReducer,
     dialogsPage:messageReducer,
     usersPage: usersReducer,
@@ -16,16 +16,22 @@ let reducers = combineReducers({
     app: appReducer
 })
 
+type RootReducerType = typeof rootReducer
+export type AppStateType = ReturnType<RootReducerType>
 //composeEnhancers works only with chrome
 /*const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace:true, traceLimit:25}) || compose;*/
-const composeEnhancers =
+/*const composeEnhancers =
     (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ?
-        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 }) : compose;
-let store = legacy_createStore(reducers,composeEnhancers(applyMiddleware(thunkMiddleware)));
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 }) : compose;*/
+const composeEnhancers: any =
+    (typeof window !== 'undefined' && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ?
+        (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 }) : compose
+let store = legacy_createStore(rootReducer,composeEnhancers(applyMiddleware(thunkMiddleware)))
 
+// @ts-ignore
 window.store = store
 
-export default store;
+export default store
 
 /*
 const rootReducer = combineReducers({

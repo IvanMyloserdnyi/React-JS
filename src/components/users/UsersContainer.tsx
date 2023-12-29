@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {followThunk, requestUsersThunk, toggleIsFollowingProgress, unfollowThunk} from "../../redux/users-reducer";
+import {followThunk, requestUsersThunk, unfollowThunk} from "../../redux/users-reducer";
 import Users from "./Users";
 import {compose} from "redux";
 import {
@@ -11,14 +11,32 @@ import {
     getTotalUsersCount,
     getUsers
 } from "../../redux/users-selectors";
+import {UserType} from "../../types/types";
+import {AppStateType} from "../../redux/redux-store";
 
-
-class UsersContainer extends React.Component {
+type MapStateToPropsType = {
+    currentPage: number
+    pageSize: number
+    totalUsersCount: number
+    users: Array<UserType>
+    isFetching: boolean
+    isFollowingProgress: Array<number>
+}
+type MapDispatchToPropsType = {
+    followThunk: (userId: number) => void
+    unfollowThunk: (userId: number) => void
+    requestUsersThunk: (currentPage: number,pageSize: number) => void
+}
+type OwnPropsType = {
+    pageTitle: string
+}
+type PropsType = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
+class UsersContainer extends React.Component<PropsType> {
     componentDidMount() {
         let {currentPage, pageSize} = this.props
         this.props.requestUsersThunk(currentPage,pageSize)
     }
-    onPageChanged = (pageNumber) => {
+    onPageChanged = (pageNumber: number) => {
         const {pageSize} = this.props
         this.props.requestUsersThunk(pageNumber,pageSize)
     }
@@ -31,14 +49,14 @@ class UsersContainer extends React.Component {
                       users = {this.props.users}
                       isFetching = {this.props.isFetching}
                       isFollowingProgress = {this.props.isFollowingProgress}
-                      follow = {this.props.followThunkCreator}
-                      unfollow = {this.props.unfollowThunkCreator}
+                      follow = {this.props.followThunk}
+                      unfollow = {this.props.unfollowThunk}
             />
 
         </>
     }
 }
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType):MapStateToPropsType => {
     return {
         users: getUsers(state),
         pageSize: getPageSize(state),
@@ -50,9 +68,14 @@ let mapStateToProps = (state) => {
 }
 
 
-const actions = {toggleIsFollowingProgress,requestUsersThunk,followThunkCreator: followThunk,unfollowThunkCreator: unfollowThunk}
+const mapDispatchToProps = {requestUsersThunk,followThunkCreator: followThunk,unfollowThunkCreator: unfollowThunk}
+
+
+
 export default compose(
-    connect(mapStateToProps,actions))
+    //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultState
+    connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps,{
+        requestUsersThunk,followThunk,unfollowThunk}))
 (UsersContainer)
 //вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
 /*let mapDispatchToProps = (dispatch) => {

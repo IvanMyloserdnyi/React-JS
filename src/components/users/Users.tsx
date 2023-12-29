@@ -2,9 +2,21 @@ import React from "react";
 import Preloader from "../Common/Preloader/Preloader";
 import Paginator from "../Common/Paginator/Paginator";
 import User from "./User";
+import {UserType} from "../../types/types";
 
 
-let Users = ({
+type PropsType = {
+    isFetching: boolean
+    users: Array<UserType>
+    isFollowingProgress: Array<number>
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    onPageChanged: (pageNumber: number) => void
+}
+let Users: React.FC<PropsType> = ({
                  isFetching, users, isFollowingProgress,
                  follow, unfollow, totalUsersCount,
                  pageSize, currentPage, onPageChanged
@@ -18,7 +30,8 @@ let Users = ({
                 isFetching
                 ? <Preloader/>
                 : users.map(user =>
-                    <div key={user.id}><User user={user} isFollowingProgress={isFollowingProgress} follow={follow} unfollow={unfollow}/></div>)
+                    <div key={user.id}><User user={user} isFollowingProgress={isFollowingProgress}
+                                             follow={follow} unfollow={unfollow}/></div>)
             }
         </div>
     </div>
