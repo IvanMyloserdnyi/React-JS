@@ -68,7 +68,6 @@ let mapStateToProps = (state: AppStateType):MapStateToPropsType => {
 }
 
 
-const mapDispatchToProps = {requestUsersThunk,followThunkCreator: followThunk,unfollowThunkCreator: unfollowThunk}
 
 
 
