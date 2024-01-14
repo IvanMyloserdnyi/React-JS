@@ -1,4 +1,4 @@
-import profileReducer, {addPostActionCreator, deletePost} from "./profile-reducer";
+import profileReducer, {actions} from "./profile-reducer";
 
 
 let state = {
@@ -21,11 +21,14 @@ let state = {
             message: "GA!GA!GA!GAGAGA!GAAAA!GA))0)0)MOTHERFUCKER!",
             url: "https://th.bing.com/th/id/R.86848a8a6a3896bc5028ecc6efa51bf5?rik=Yx8NeD1z7BSRtg&riu=http%3a%2f%2fandrey-eltsov.ru%2fwp-content%2fuploads%2f2017%2f09%2fSmehAva20-300x300.jpg&ehk=uPm%2flcEuEcbW8qcUnpsCq2Se%2bCFDxEFJzpujUNT5ALA%3d&risl=&pid=ImgRaw&r=0"
         }
-    ]
+    ],
+    profile: null,
+    status: '',
+    newPostText: ''
 }
 test('length of posts should be incremented', () => {
     //1. test data
-    let action = addPostActionCreator('new post text')
+    let action = actions.addPostActionCreator('new post text')
     //2. action
     let newState = profileReducer(state, action)
     //3. expectation
@@ -34,7 +37,7 @@ test('length of posts should be incremented', () => {
 })
 test('message of new post should be correct', () => {
     //1. test data
-    let action = addPostActionCreator('new post text')
+    let action = actions.addPostActionCreator('new post text')
     //2. action
     let newState = profileReducer(state, action)
     //3. expectation
@@ -42,7 +45,7 @@ test('message of new post should be correct', () => {
 })
 test('after deleting length of message should be decrement', () => {
     //1. test data
-    let action = deletePost(1)
+    let action = actions.deletePost(1)
     //2. action
     let newState = profileReducer(state, action)
     //3. expectation
@@ -50,7 +53,7 @@ test('after deleting length of message should be decrement', () => {
 })
 test('after deleting length shouldn`t be decrement if id is incorrect', () => {
     //1. test data
-    let action = deletePost(1000)
+    let action = actions.deletePost(1000)
     //2. action
     let newState = profileReducer(state, action)
     //3. expectation
