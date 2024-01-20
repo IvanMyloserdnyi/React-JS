@@ -12,13 +12,16 @@ import {connect, Provider} from "react-redux";
 import {initializeAppThunk} from "./redux/app-reducer";
 import Preloader from "./components/Common/Preloader/Preloader";
 import {compose} from "redux";
-import store from "./redux/redux-store";
-//import DialogsContainer from "./components/dialogs/DialogsContainer";
-//import ProfileContainer from "./components/profile/ProfileContainer";
+import store, {AppStateType} from "./redux/redux-store";
+
 const DialogsContainer = React.lazy(() => import("./components/dialogs/DialogsContainer"));
 const ProfileContainer = React.lazy(() => import("./components/profile/ProfileContainer"));
 
-class App extends React.Component {
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = {
+    initializeAppThunk: () => void
+}
+class App extends React.Component<MapPropsType & DispatchPropsType> {
     catchAllUnhandledErrors = () => {
         alert ("some error occured")
     }
@@ -41,7 +44,7 @@ class App extends React.Component {
                 <div className={"app-wrapper-content"}>
                     <Routes>
                         {/*<Route path="/profile" element={<ProfileContainer/>}/>*/}
-                        <Route exact path="/" element = {<Navigate to="/profile"/>}/>
+                        <Route path="/" element = {<Navigate to="/profile"/>}/>
                         <Route path="/profile"
                                element={<Suspense fallback={<Preloader/>}><ProfileContainer/></Suspense>}/>
                         <Route path="/profile/:userId"
@@ -61,13 +64,13 @@ class App extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({initialized: state.app.initialized})
+const mapStateToProps = (state: AppStateType) => ({initialized: state.app.initialized})
 
-const AppContainer = compose(
+const AppContainer = compose<React.ComponentType>(
     connect(mapStateToProps, {initializeAppThunk}))
 (App);
 
-const Main = (props) => {
+const Main: React.FC = () => {
     return (
         //<BrowserRouter basename={process.env.PUBLIC_URL}>
         <HashRouter>

@@ -10,7 +10,7 @@ let initialState = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: true,
-    isFollowingProgress: [] as Array<number> //array of users id
+    followingInProgress: [] as Array<number> //array of users id
 }
 
 const usersReducer = (state = initialState, action: ActionsType): InitialStateType => {
@@ -36,9 +36,9 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
         case 'SN/USERS/TOGGLE_IS_FOLLOWING_PROGRESS':
             return {
                 ...state,
-                isFollowingProgress: action.isFetching
-                    ? [...state.isFollowingProgress, action.userId]
-                    : state.isFollowingProgress.filter(id => id !== action.userId)
+                followingInProgress: action.isFetching
+                    ? [...state.followingInProgress, action.userId]
+                    : state.followingInProgress.filter(id => id !== action.userId)
             }
         default:
             return state;

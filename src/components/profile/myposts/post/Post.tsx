@@ -1,11 +1,11 @@
 import React from "react"
 import s from "./Post.module.css";
 
-const Post = (props) => {
+const Post: React.FC<PropsType> = (props) => {
 
     return  (
       <div className={s.item}>
-        <img src={props.urlphoto}></img>
+        <img src={props.urlPhoto}></img>
          {props.message}
          <div>
           {props.LikesAmount}
@@ -15,3 +15,9 @@ const Post = (props) => {
     )
 }
 export default Post
+
+type PropsType = {
+    urlPhoto: string
+    message: string
+    LikesAmount: number
+}

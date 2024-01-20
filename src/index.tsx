@@ -6,15 +6,33 @@ import './index.css';
 import Main from "./App";
 
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-/*с модом <React.StrictMode>  не отображаются initial values в ProfileDataForm/ (ProfileInfo 35 строка) а без мода
-* не работает редакс форм в логине*/
+
+const rootElement = document.getElementById('root');
+
+if (rootElement) {
+    const root = ReactDOM.createRoot(rootElement);
     root.render(
         <React.StrictMode>
             <Main/>
         </React.StrictMode>
     );
+} else {
+    console.error("Root element not found");
+}
 
+
+/*const root = ReactDOM.createRoot(document.getElementById('root'));
+
+    root.render(
+        <React.StrictMode>
+            <Main/>
+        </React.StrictMode>
+    );
+    */
+
+
+/*с модом <React.StrictMode>  не отображаются initial values в ProfileDataForm/ (ProfileInfo 35 строка) а без мода
+* не работает редакс форм в логине*/
 
 /*store.subscribe(() => {
     let state = store.getState();

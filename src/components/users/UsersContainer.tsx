@@ -14,22 +14,6 @@ import {
 import {UserType} from "../../types/types";
 import {AppStateType} from "../../redux/redux-store";
 
-type MapStateToPropsType = {
-    currentPage: number
-    pageSize: number
-    totalUsersCount: number
-    users: Array<UserType>
-    isFetching: boolean
-    isFollowingProgress: Array<number>
-}
-type MapDispatchToPropsType = {
-    followThunk: (userId: number) => void
-    unfollowThunk: (userId: number) => void
-    requestUsersThunk: (currentPage: number,pageSize: number) => void
-}
-type OwnPropsType = {
-    pageTitle: string
-}
 type PropsType = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 class UsersContainer extends React.Component<PropsType> {
     componentDidMount() {
@@ -48,7 +32,7 @@ class UsersContainer extends React.Component<PropsType> {
                       onPageChanged = {this.onPageChanged}
                       users = {this.props.users}
                       isFetching = {this.props.isFetching}
-                      isFollowingProgress = {this.props.isFollowingProgress}
+                      followingInProgress= {this.props.isFollowingProgress}
                       follow = {this.props.followThunk}
                       unfollow = {this.props.unfollowThunk}
             />
@@ -76,6 +60,23 @@ export default compose(
     connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps,{
         requestUsersThunk,followThunk,unfollowThunk}))
 (UsersContainer)
+
+type MapStateToPropsType = {
+    currentPage: number
+    pageSize: number
+    totalUsersCount: number
+    users: Array<UserType>
+    isFetching: boolean
+    isFollowingProgress: Array<number>
+}
+type MapDispatchToPropsType = {
+    followThunk: (userId: number) => void
+    unfollowThunk: (userId: number) => void
+    requestUsersThunk: (currentPage: number,pageSize: number) => void
+}
+type OwnPropsType = {
+    pageTitle: string
+}
 //вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
 /*let mapDispatchToProps = (dispatch) => {
     return {

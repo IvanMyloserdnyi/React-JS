@@ -59,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-test-renderer": "^18.0.7",
     "@types/webpack-env": "^1.18.4",
     "gh-pages": "^6.1.0",
     "react-test-renderer": "^18.2.0",

@@ -11,22 +11,36 @@ import {
 import withAuthRedirect from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import withRouter from "../../utils/oldHOC/withRouter";
+import {AppStateType} from "../../redux/redux-store";
+import {ProfileType} from "../../types/types";
+import {NavigateFunction} from "react-router-dom";
 
 
-class ProfileContainer extends React.Component {
+class ProfileContainer extends React.Component<PropsType> {
+
+/*    constructor(props: PropsType) {
+        debugger
+        super(props);
+    }*/
     refreshProfile() {
-        let userId = this.props.router.params.userId
+        // @ts-ignore
+        let userId: number | null  = +this.props.router.params.userId
         if (!userId) {
             userId = this.props.authorizedUserId
         }
-        this.props.getProfileDataThunk(userId)
-        this.props.getUserStatusThunk(userId)
+        if (!userId) {
+            console.error('User id should exists in URI params or in the state')
+        }
+        else {
+            this.props.getProfileDataThunk(userId)
+            this.props.getUserStatusThunk(userId)
+        }
     }
 
     componentDidMount() {
         this.refreshProfile()
     }
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps: PropsType, prevState: PropsType) {
         if (this.props.router.params.userId != prevProps.router.params.userId) {
             this.refreshProfile()
         }
@@ -47,7 +61,7 @@ class ProfileContainer extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
     profile: state.profilePage.profile,
     status: state.profilePage.status,
     authorizedUserId: state.auth.userId,
@@ -55,8 +69,25 @@ const mapStateToProps = (state) => ({
 })
 
 
-export default compose(
+export default compose<React.ComponentType>(
     withAuthRedirect,
     connect(mapStateToProps, {getProfileDataThunk,getUserStatusThunk,updateUserStatusThunk,savePhoto,saveProfile}),
     withRouter)
 (ProfileContainer)
+
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = {
+    getProfileDataThunk: (userId: number) => void
+    getUserStatusThunk: (userId: number) => void
+    updateUserStatusThunk: (status: string) => void
+    savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileType) => Promise<any>
+}
+type PropsType = MapPropsType & DispatchPropsType & withRouterProps
+type withRouterProps = {
+    router: {
+        location: Location
+        navigate: NavigateFunction
+        params: Record<"userId", string | undefined>
+    };
+}

@@ -67,5 +67,5 @@ type MessageType = {
     message: string
     url: string
 }
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 type ActionsType = InferActionsTypes<typeof actions>

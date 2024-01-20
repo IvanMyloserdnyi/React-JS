@@ -8,7 +8,7 @@ import {UserType} from "../../types/types";
 type PropsType = {
     isFetching: boolean
     users: Array<UserType>
-    isFollowingProgress: Array<number>
+    followingInProgress: Array<number>
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     totalUsersCount: number
@@ -17,7 +17,7 @@ type PropsType = {
     onPageChanged: (pageNumber: number) => void
 }
 let Users: React.FC<PropsType> = ({
-                 isFetching, users, isFollowingProgress,
+                 isFetching, users, followingInProgress,
                  follow, unfollow, totalUsersCount,
                  pageSize, currentPage, onPageChanged
              }) => {
@@ -30,7 +30,7 @@ let Users: React.FC<PropsType> = ({
                 isFetching
                 ? <Preloader/>
                 : users.map(user =>
-                    <div key={user.id}><User user={user} isFollowingProgress={isFollowingProgress}
+                    <div key={user.id}><User user={user} followingInProgress={followingInProgress}
                                              follow={follow} unfollow={unfollow}/></div>)
             }
         </div>

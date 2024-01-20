@@ -16,7 +16,7 @@ export const getIsFetching = (state: AppStateType) => {
     return state.usersPage.isFetching
 }
 export const getIsFollowingProgress = (state: AppStateType) => {
-    return state.usersPage.isFollowingProgress
+    return state.usersPage.followingInProgress
 }
 
 

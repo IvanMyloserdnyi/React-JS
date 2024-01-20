@@ -25,8 +25,7 @@ let initialState = {
             }
         ] as Array<PostType>,
     profile: null as ProfileType | null,
-    status: '',
-    newPostText: ''
+    status: ''
 }
 
 const profileReducer = (state=initialState, action: ActionsType): InitialStateType => {
@@ -41,7 +40,6 @@ const profileReducer = (state=initialState, action: ActionsType): InitialStateTy
             return {
                 ...state,
                 postsData: [...state.postsData,newPost],
-                newPostText: ''
             };
         case 'SN/PROFILE/SET_USER_PROFILE':
             return {...state, profile: action.profile}
