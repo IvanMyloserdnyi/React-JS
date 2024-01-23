@@ -3,6 +3,7 @@ import {UserType} from "../types/types";
 import {Dispatch} from "redux";
 import {BaseThunkType, InferActionsTypes} from "./redux-store";
 import {usersAPI} from "../api/users-api";
+import {APIResponseType} from "../api/api";
 
 let initialState = {
     usersData: [] as Array<UserType>,
@@ -74,27 +75,27 @@ export const requestUsersThunk = (page: number, pageSize: number): ThunkType =>
     }
 const _followUnfollowFlow = async (dispatch: DispatchType,
                                    userId: number,
-                                   apiMethod: any,
+                                   apiMethod: (userId: number) => Promise<APIResponseType>,
                                    actionCreator: (userId: number) => ActionsType) => {
     dispatch(actions.toggleIsFollowingProgress(true, userId))
     const response = await apiMethod(userId)
-    if (response.data.resultCode === 0) {
+    if (response.resultCode === 0) {
         dispatch(actionCreator(userId))
     }
     dispatch(actions.toggleIsFollowingProgress(false, userId))
 }
 export const followThunk = (userId: number): ThunkType => async dispatch => {
-    _followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI), actions.followSuccess)
+    await _followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI), actions.followSuccess)
 }
 export const unfollowThunk = (userId: number): ThunkType => async dispatch => {
     const apiMethod = usersAPI.unfollow.bind(usersAPI)
     const actionCreator = actions.unfollowSuccess
-    _followUnfollowFlow(dispatch, userId, apiMethod, actionCreator)
+    await _followUnfollowFlow(dispatch, userId, apiMethod, actionCreator)
 }
 
 export default usersReducer;
 
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 type ActionsType = InferActionsTypes<typeof actions>
 type DispatchType = Dispatch<ActionsType>
 type ThunkType = BaseThunkType<ActionsType>
