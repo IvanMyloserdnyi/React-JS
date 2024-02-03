@@ -20,15 +20,21 @@ type RootReducerType = typeof rootReducer
 
 /*type PropertiesType<T> = T extends {[key: string]: infer U} ? U : never
 export type InferActionsTypes<T extends {[key: string]: (...args: any[]) => any}> = ReturnType<PropertiesType<T>>*/
+
+
 export type InferActionsTypes<T> = T extends {[key: string]: (...args: any[]) => infer U} ? U : never
 export type BaseThunkType<ActionsTypes extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, ActionsTypes>
 
 export type AppStateType = ReturnType<RootReducerType>
+
+
 //composeEnhancers works only with chrome
 /*const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace:true, traceLimit:25}) || compose;*/
 /*const composeEnhancers =
     (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ?
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 }) : compose;*/
+
+
 const composeEnhancers: any =
     (typeof window !== 'undefined' && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ?
         (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 }) : compose

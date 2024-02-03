@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {followThunk, requestUsersThunk, unfollowThunk} from "../../redux/users-reducer";
+import {FilterType, followThunk, requestUsersThunk, unfollowThunk} from "../../redux/users-reducer";
 import Users from "./Users";
 import {compose} from "redux";
 import {
@@ -9,7 +9,7 @@ import {
     getIsFollowingProgress,
     getPageSize,
     getTotalUsersCount,
-    getUsers
+    getUsers, getUsersFilter
 } from "../../redux/users-selectors";
 import {UserType} from "../../types/types";
 import {AppStateType} from "../../redux/redux-store";
@@ -17,12 +17,16 @@ import {AppStateType} from "../../redux/redux-store";
 type PropsType = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 class UsersContainer extends React.Component<PropsType> {
     componentDidMount() {
-        let {currentPage, pageSize} = this.props
-        this.props.requestUsersThunk(currentPage,pageSize)
+        let {currentPage, pageSize, filter} = this.props
+        this.props.requestUsersThunk(currentPage,pageSize, filter)
     }
     onPageChanged = (pageNumber: number) => {
+        const {pageSize, filter} = this.props
+        this.props.requestUsersThunk(pageNumber,pageSize, filter)
+    }
+    onFilterChanged = (filter: FilterType) => {
         const {pageSize} = this.props
-        this.props.requestUsersThunk(pageNumber,pageSize)
+        this.props.requestUsersThunk(1,pageSize, filter)
     }
     render() {
         return <>
@@ -30,6 +34,7 @@ class UsersContainer extends React.Component<PropsType> {
                       pageSize = {this.props.pageSize}
                       currentPage = {this.props.currentPage}
                       onPageChanged = {this.onPageChanged}
+                      onFilterChanged = {this.onFilterChanged}
                       users = {this.props.users}
                       isFetching = {this.props.isFetching}
                       followingInProgress= {this.props.isFollowingProgress}
@@ -48,6 +53,7 @@ let mapStateToProps = (state: AppStateType):MapStateToPropsType => {
         currentPage: getCurrentPage(state),
         isFetching: getIsFetching(state),
         isFollowingProgress: getIsFollowingProgress(state),
+        filter: getUsersFilter(state)
     }
 }
 
@@ -68,15 +74,20 @@ type MapStateToPropsType = {
     users: Array<UserType>
     isFetching: boolean
     isFollowingProgress: Array<number>
+    filter: FilterType
 }
 type MapDispatchToPropsType = {
     followThunk: (userId: number) => void
     unfollowThunk: (userId: number) => void
-    requestUsersThunk: (currentPage: number,pageSize: number) => void
+    requestUsersThunk: (currentPage: number,pageSize: number, filter: FilterType) => void
 }
 type OwnPropsType = {
     pageTitle: string
 }
+
+
+
+
 //вместо mapDispatchToProps,главное чтобы название действия и екшнкриейтора были одинаковые,коннект сам их задиспатчит и прокинет данные
 /*let mapDispatchToProps = (dispatch) => {
     return {
