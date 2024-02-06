@@ -1,31 +1,52 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Preloader from "../Common/Preloader/Preloader";
 import Paginator from "../Common/Paginator/Paginator";
 import User from "./User";
-import {UserType} from "../../types/types";
 import {UsersSearchForm} from "./UsersSearchForm";
-import {FilterType} from "../../redux/users-reducer";
+import {FilterType, followThunk, requestUsersThunk, unfollowThunk} from "../../redux/users-reducer";
+import {
+    getCurrentPage,
+    getIsFetching,
+    getIsFollowingProgress,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers,
+    getUsersFilter
+} from "../../redux/users-selectors";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch} from "../../redux/redux-store";
 
 
-type PropsType = {
-    isFetching: boolean
-    users: Array<UserType>
-    followingInProgress: Array<number>
-    follow: (userId: number) => void
-    unfollow: (userId: number) => void
-    totalUsersCount: number
-    pageSize: number
-    currentPage: number
-    onPageChanged: (pageNumber: number) => void
-    onFilterChanged: (filter: FilterType) => void
-}
-let Users: React.FC<PropsType> = ({
-                 isFetching, users, followingInProgress,
-                 follow, unfollow, totalUsersCount,
-                 pageSize, currentPage, onPageChanged, ...props
-             }) => {
+type PropsType = {}
+export const Users: React.FC<PropsType> = (props) => {
+    const users = useSelector(getUsers)
+    const totalUsersCount = useSelector(getTotalUsersCount)
+    const currentPage = useSelector(getCurrentPage)
+    const pageSize = useSelector(getPageSize)
+    const filter = useSelector(getUsersFilter)
+    const followingInProgress = useSelector(getIsFollowingProgress)
+    const isFetching = useSelector(getIsFetching)
+
+    const dispatch: AppDispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(requestUsersThunk(currentPage,pageSize, filter))
+    },[])
+
+    const onPageChanged = (pageNumber: number) => {
+        dispatch(requestUsersThunk(pageNumber,pageSize, filter))
+    }
+    const onFilterChanged = (filter: FilterType) => {
+        dispatch(requestUsersThunk(1,pageSize, filter))
+    }
+    const follow = (userId: number) => {
+        dispatch(followThunk(userId))
+    }
+    const unfollow = (userId: number) => {
+        dispatch(unfollowThunk(userId))
+    }
     return <div>
-        <UsersSearchForm onFilterChanged = {props.onFilterChanged}/>
+        <UsersSearchForm onFilterChanged = {onFilterChanged}/>
         <Paginator totalUsersCount={totalUsersCount} pageSize={pageSize} currentPage={currentPage}
                    onPageChanged={onPageChanged} portionSize = {10}/>
 
@@ -42,5 +63,3 @@ let Users: React.FC<PropsType> = ({
         </div>
     </div>
 }
-
-export default Users

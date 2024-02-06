@@ -1,9 +1,9 @@
-import {Action, applyMiddleware, combineReducers, compose, legacy_createStore} from "redux";
+import {Action, AnyAction, applyMiddleware, combineReducers, compose, legacy_createStore} from "redux";
 import messageReducer from "./message-reducer";
 import profileReducer from "./profile-reducer";
 import usersReducer from "./users-reducer"
 import authReducer from "./auth-reducer";
-import thunkMiddleware, {ThunkAction} from 'redux-thunk'
+import thunkMiddleware, {ThunkAction, ThunkDispatch} from 'redux-thunk'
 import {reducer as formReducer} from "redux-form"
 import appReducer from "./app-reducer";
 
@@ -24,9 +24,8 @@ export type InferActionsTypes<T extends {[key: string]: (...args: any[]) => any}
 
 export type InferActionsTypes<T> = T extends {[key: string]: (...args: any[]) => infer U} ? U : never
 export type BaseThunkType<ActionsTypes extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, ActionsTypes>
-
 export type AppStateType = ReturnType<RootReducerType>
-
+export type AppDispatch = ThunkDispatch<AppStateType, unknown, AnyAction>
 
 //composeEnhancers works only with chrome
 /*const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace:true, traceLimit:25}) || compose;*/

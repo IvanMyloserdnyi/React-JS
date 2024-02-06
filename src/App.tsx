@@ -4,9 +4,9 @@ import Navbar from "./components/navbar/Navbar";
 import News from "./components/news/News";
 import Music from "./components/music/Music";
 import Settings from "./components/settings/Settings";
-import LoginPage from "./components/login/Login";
-import {Routes, Route, HashRouter, Navigate} from "react-router-dom";
-import UsersContainer from "./components/users/UsersContainer";
+import {LoginPage} from "./components/login/LoginPage";
+import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
+import {UsersPage} from "./components/users/UsersContainer";
 import HeaderContainer from "./components/header/HeaderContainer";
 import {connect, Provider} from "react-redux";
 import {initializeAppThunk} from "./redux/app-reducer";
@@ -54,7 +54,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                         <Route path="/news" element={<News/>}/>
                         <Route path="/music" element={<Music/>}/>
                         <Route path="/settings" element={<Settings/>}/>
-                        <Route path="/users" element={<UsersContainer pageTitle = {'Gussi gangs:'}/>}/>
+                        <Route path="/users" element={<UsersPage pageTitle = {'Gussi gangs:'}/>}/>
                         <Route path="/login" element={<LoginPage/>}/>
                         <Route path="*" element={<div>404 Not found</div>}/>
                     </Routes>
